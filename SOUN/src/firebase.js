@@ -1,5 +1,5 @@
-// src/firebase.jsx
 import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
@@ -13,7 +13,8 @@ const firebaseConfig = {
   measurementId: "G-EPJPNHFP56",
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
+getAnalytics(app);
+
 export const auth = getAuth(app);
 export const db = getFirestore(app);

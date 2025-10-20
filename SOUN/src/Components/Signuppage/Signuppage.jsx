@@ -1,7 +1,12 @@
 import React, { useState } from "react";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
+} from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { auth, db } from "../../firebase";
+import { useNavigate } from "react-router-dom";
 import "./Signup.css";
 
 const SignupPage = () => {
@@ -9,10 +14,13 @@ const SignupPage = () => {
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+    setLoading(true);
 
     try {
       const userCredential = await createUserWithEmailAndPassword(
@@ -30,15 +38,43 @@ const SignupPage = () => {
       });
 
       alert("Signup successful!");
+      navigate("/dashboard");
     } catch (err) {
       setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleGoogleSignup = async () => {
+    const provider = new GoogleAuthProvider();
+    setError("");
+    setLoading(true);
+
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+
+      await setDoc(doc(db, "users", user.uid), {
+        name: user.displayName,
+        email: user.email,
+        uid: user.uid,
+        createdAt: new Date(),
+      });
+
+      alert("Google signup successful!");
+      navigate("/dashboard");
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="signup-page">
       <form className="signup-form" onSubmit={handleSubmit}>
-        <h2>Sign Up</h2>
+        <h2>Create Your Account</h2>
         <input
           type="text"
           placeholder="Full Name"
@@ -60,8 +96,23 @@ const SignupPage = () => {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
+
         {error && <p className="error">{error}</p>}
-        <button type="submit">Create Account</button>
+
+        <button type="submit" disabled={loading}>
+          {loading ? "Creating..." : "Create Account"}
+        </button>
+
+        <div className="divider">OR</div>
+
+        <button
+          type="button"
+          className="google-btn"
+          onClick={handleGoogleSignup}
+          disabled={loading}
+        >
+          {loading ? "Please wait..." : "Sign Up with Google"}
+        </button>
       </form>
     </div>
   );
