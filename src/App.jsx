@@ -6,12 +6,12 @@ import {
   Link,
   useNavigate,
 } from "react-router-dom";
-import SignupPage from "./Components/SignupPage/SignupPage";
-import LoginPage from "./Components/LoginPage/LoginPage";
-import Dashboard from "./Components/Dashboard/Dashboard";
-import StyleDetails from "./Components/StyleDetails/StyleDetails";
+import SignupPage from "./Components/SignupPage/SignupPage.jsx";
+import LoginPage from "./Components/LoginPage/LoginPage.jsx";
+import Dashboard from "./Components/Dashboard/Dashboard.jsx";
+import StyleDetails from "./Components/StyleDetails/StyleDetails.jsx";
 import StylesGallery from "./Components/StylesGallery/StylesGallery.jsx";
-import { auth } from "./firebase";
+import { auth } from "./firebase.js";
 import { onAuthStateChanged } from "firebase/auth";
 
 function App() {

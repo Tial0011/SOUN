@@ -35,14 +35,43 @@ const StylesGallery = () => {
       <div className="styles-grid">
         {styles.map((style) => (
           <Link to={`/style/${style.id}`} key={style.id} className="style-card">
-            <img
-              src={style.imageUrl}
-              alt={style.name}
-              className="style-image"
-            />
-            <h3>{style.name}</h3>
-            <p>{style.category}</p>
-            <p className="price">₦{style.price}</p>
+            <div className="style-card-images">
+              {/* Full Outfit (Left) */}
+              <img
+                src={
+                  style.fullImage ||
+                  "https://via.placeholder.com/180x200?text=Full+Outfit"
+                }
+                alt={style.name}
+                className="full-image"
+              />
+
+              {/* Right side collage (Top & Bottom) */}
+              <div className="right-collage">
+                <img
+                  src={
+                    style.top?.image ||
+                    "https://via.placeholder.com/100x95?text=Top"
+                  }
+                  alt={style.top?.name || "Top"}
+                  className="top-image"
+                />
+                <img
+                  src={
+                    style.bottom?.image ||
+                    "https://via.placeholder.com/100x95?text=Bottom"
+                  }
+                  alt={style.bottom?.name || "Bottom"}
+                  className="bottom-image"
+                />
+              </div>
+            </div>
+
+            <div className="style-info">
+              <h3>{style.name}</h3>
+              <p>{style.category}</p>
+              <p className="price">₦{style.price?.toLocaleString()}</p>
+            </div>
           </Link>
         ))}
       </div>
