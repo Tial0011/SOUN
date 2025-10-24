@@ -6,11 +6,11 @@ import {
   Link,
   useNavigate,
 } from "react-router-dom";
-import SignupPage from "./Components/SignupPage/SignupPage";
-import LoginPage from "./Components/LoginPage/LoginPage";
-import Dashboard from "./Components/Dashboard/Dashboard";
-import StyleDetails from "./Components/StyleDetails/StyleDetails";
-import StylesGallery from "./Components/StylesGallery/StylesGallery.jsx";
+import SignupPage from "./components/Signuppage/Signuppage.jsx";
+import LoginPage from "./components/LoginPage/LoginPage.jsx";
+import Dashboard from "./components/Dashboard/Dashboard.jsx";
+import StyleDetails from "./components/StyleDetails/StyleDetails.jsx";
+import StylesGallery from "./components/StylesGallery/StylesGallery.jsx";
 import { auth } from "./firebase";
 import { onAuthStateChanged } from "firebase/auth";
 
@@ -55,6 +55,7 @@ function MainApp() {
       </nav>
 
       <Routes>
+        <Route path="/" element={<Dashboard />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/dashboard" element={<Dashboard />} />
